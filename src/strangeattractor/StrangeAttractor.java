@@ -1,6 +1,7 @@
 package strangeattractor;
 
 import java.awt.AWTException;
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -14,7 +15,7 @@ public class StrangeAttractor extends JPanel implements Runnable {
 	
 	public static boolean running = false;
 	
-	public static Point3D c = sa.new Point3D(0, 0, -500);
+	public static Point3D c = sa.new Point3D(100, 0, -100);
 	public static Point3D o = sa.new Point3D(0, 0, 0);
 	public static Point3D e = sa.new Point3D(0, 0, 500);
 	public static Point3D d = sa.new Point3D();
@@ -98,31 +99,37 @@ public class StrangeAttractor extends JPanel implements Runnable {
 		Point3D xAxis = new Point3D(500, 0, 0);
 		Point3D yAxis = new Point3D(0, -500, 0);
 		Point3D zAxis = new Point3D(0, 0, 500);
-		
+
 		g2d.setColor(new Color(255, 0, 0));
-		g2d.drawLine((int)project(origin).getX() + 960, (int)project(origin).getY() + 540, (int)project(xAxis).getX() + 960, (int)project(xAxis).getY() + 540);
+//		g2d.drawLine((int)project(origin).getX() + 960, (int)project(origin).getY() + 540, (int)project(xAxis).getX() + 960, (int)project(xAxis).getY() + 540);
 		
 		g2d.setColor(new Color(0, 255, 0));
-		g2d.drawLine((int)project(origin).getX() + 960, (int)project(origin).getY() + 540, (int)project(yAxis).getX() + 960, (int)project(yAxis).getY() + 540);
+//		g2d.drawLine((int)project(origin).getX() + 960, (int)project(origin).getY() + 540, (int)project(yAxis).getX() + 960, (int)project(yAxis).getY() + 540);
 		
 		g2d.setColor(new Color(0, 0, 255));
-		g2d.drawLine((int)project(origin).getX() + 960, (int)project(origin).getY() + 540, (int)project(zAxis).getX() + 960, (int)project(zAxis).getY() + 540);
+//		g2d.drawLine((int)project(origin).getX() + 960, (int)project(origin).getY() + 540, (int)project(zAxis).getX() + 960, (int)project(zAxis).getY() + 540);
 		
 
 		g2d.setColor(new Color(0, 0, 0));
+		g2d.fillRect(0, 0, 1920, 1080);
 		double o = 10;
 		double p = 28;
 		double b = 8/3;
 		
 		Point3D d = new Point3D(1, 2, 3);
-		Point3D dOld = d;
-		double h = .001;
-		for(double i = 0; i < 100000; i += 1) {
+		Point3D dOld = new Point3D(1, 2, 3);
+		double h = .01;
+		g2d.setStroke(new BasicStroke(2));
+		for(double i = 0; i < 10000; i += 1) {
 			d.setX(dOld.getX() + h * (o * (dOld.getY() - dOld.getX())));
 			d.setY(dOld.getY() + h * (dOld.getX() * (p - dOld.getZ()) - dOld.getY()));
 			d.setZ(dOld.getZ() + h*(dOld.getX() * dOld.getY() - b * dOld.getZ()));
+			
+			g2d.setColor(new Color((int)i % 200 + 55, (int)i %150 + 105, (int)i % 100 + 155));
 			g2d.drawLine((int)project(dOld).getX() + 960, (int)project(dOld).getY() + 540, (int)project(d).getX() + 960, (int)project(d).getY() + 540);
-			dOld = d;
+			dOld.setX(d.getX());
+			dOld.setY(d.getY());
+			dOld.setZ(d.getZ());
 		}
 
 		
